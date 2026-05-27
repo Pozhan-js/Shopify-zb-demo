@@ -8,3 +8,7 @@
 ehthumbs.db
 Thumbs.db
 .shopify
+downloaded-site
+homepage-display-assets/*
+!homepage-display-assets/.gitkeep
+!homepage-display-assets/README.md
