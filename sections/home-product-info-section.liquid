@@ -432,7 +432,7 @@
 {% liquid
   assign displayproduct = product
   if section.settings.selectedproduct != blank
-    assign displayproduct = allproducts[section.settings.selectedproduct]
+    assign displayproduct = all_products[section.settings.selectedproduct]
   elsif displayproduct == blank and collections.all.products.size > 0
     assign displayproduct = collections.all.products.first
   endif
@@ -461,14 +461,14 @@
 
         <div class="price-row">
           <span id="current-price">
-            {% if displayproduct.compareatprice > displayproduct.price %}
+            {% if displayproduct.compare_at_price > displayproduct.price %}
               {{ displayproduct.price | money }}
             {% else %}
               {{ displayproduct.price | money }}
             {% endif %}
           </span>
-          {% if displayproduct.compareatprice > displayproduct.price %}
-            <span class="price-old price-discount" id="old-price">{{ displayproduct.compareatprice | money }}</span>
+          {% if displayproduct.compare_at_price > displayproduct.price %}
+            <span class="price-old price-discount" id="old-price">{{ displayproduct.compare_at_price | money }}</span>
           {% endif %}
         </div>
 
@@ -489,9 +489,9 @@
                       name="id"
                       value="{{ variant.id }}"
                       data-price="{{ variant.price | money }}"
-                      data-old-price="{% if variant.compareatprice > variant.price %}{{ variant.compareatprice | money }}{% endif %}"
+                      data-old-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
                       data-available="{{ variant.available }}"
-                      data-image="{% if variant.image %}{{ variant.image | img_url: '800x800' }}{% elsif displayproduct.featured_image %}{{ displayproduct.featured_image | img_url: '800x800' }}{% endif %}"
+                      data-image="{% if variant.image %}{{ variant.image | image_url: width: 800 }}{% elsif displayproduct.featured_image %}{{ displayproduct.featured_image | image_url: width: 800 }}{% endif %}"
                       data-image-alt="{% if variant.image %}{{ variant.image.alt | default: variant.title }}{% else %}{{ displayproduct.featured_image.alt | default: displayproduct.title }}{% endif %}"
                       {% if forloop.first %}checked{% endif %}
                       {% unless variant.available %}disabled{% endunless %}
@@ -532,70 +532,44 @@
 
       <!-- Right Image -->
       <div class="image-container">
-        {% assign imageurl = '' %}
-        {% assign imagealt = '' %}
+        {%- assign imageobj = nil -%}
+        {%- assign imagealt = section.settings.mainimagealt | default: displayproduct.title -%}
 
-        {% if section.settings.useproductimage and displayproduct.featured_image %}
-          {% assign imageurl = displayproduct.featured_image | img_url: '800x800' %}
-          {% assign imagealt = displayproduct.featured_image.alt | default: displayproduct.title %}
-        {% elsif section.settings.mainimage != blank %}
-          {% assign imageurl = section.settings.mainimage | img_url: '800x800' %}
-          {% assign imagealt = section.settings.mainimagealt | default: displayproduct.title %}
-        {% elsif section.settings.fallbackimage != blank %}
-          {% assign imageurl = section.settings.fallbackimage | img_url: '800x800' %}
-          {% assign imagealt = section.settings.mainimagealt | default: displayproduct.title %}
-        {% elsif displayproduct.featured_image %}
-          {% assign imageurl = displayproduct.featured_image | img_url: '800x800' %}
-          {% assign imagealt = displayproduct.featured_image.alt | default: displayproduct.title %}
-        {% endif %}
+        {%- if section.settings.useproductimage and displayproduct.featured_image -%}
+          {%- assign imageobj = displayproduct.featured_image -%}
+          {%- assign imagealt = displayproduct.featured_image.alt | default: displayproduct.title -%}
+        {%- elsif section.settings.mainimage != blank -%}
+          {%- assign imageobj = section.settings.mainimage -%}
+        {%- elsif section.settings.fallbackimage != blank -%}
+          {%- assign imageobj = section.settings.fallbackimage -%}
+        {%- elsif displayproduct.featured_image -%}
+          {%- assign imageobj = displayproduct.featured_image -%}
+          {%- assign imagealt = displayproduct.featured_image.alt | default: displayproduct.title -%}
+        {%- endif -%}
 
-        {% if imageurl != blank and imageurl != '' %}
-          <!-- 检查图片格式，只对jpg和pjpg格式使用WebP -->
-          {% assign image_extension = displayproduct.featured_image.src | split: '.' | last | downcase %}
-          {% if image_extension == 'jpg' or image_extension == 'jpeg' or image_extension == 'pjpg' %}
-            <!-- 使用picture元素支持WebP格式 -->
-            <picture>
-              <source srcset="{{ imageurl | img_url: '800x800', format: 'webp' }}" type="image/webp">
-              <img
-                id="main-product-image"
-                src="{{ imageurl }}"
-                alt="{{ imagealt }}"
-                class="main-image"
-                width="800"
-                height="800"
-                loading="eager"
-              >
-            </picture>
-          {% else %}
-            <!-- 不支持WebP转换的格式，直接使用原图 -->
-            <img
-              id="main-product-image"
-              src="{{ imageurl }}"
-              alt="{{ imagealt }}"
-              class="main-image"
-              width="800"
-              height="800"
-              loading="eager"
-            >
-          {% endif %}
+        {%- if imageobj != blank -%}
+          <img
+            id="main-product-image"
+            src="{{ imageobj | image_url: width: 800 }}"
+            alt="{{ imagealt }}"
+            class="main-image"
+            width="800"
+            height="800"
+            loading="eager"
+          >
           <div class="placeholder-image" style="display: none;">
             <span>{{ displayproduct.title | default: 'Product Image' }}</span>
           </div>
-        {% else %}
+        {%- else -%}
           <div id="main-product-image" class="placeholder-image">
             <span>{{ displayproduct.title | default: 'No Image Available' }}</span>
           </div>
-        {% endif %}
+        {%- endif -%}
 
         {% if displayproduct.images.size > 1 %}
-          <!-- 预加载所有主图资源，只对jpg和pjpg格式使用WebP -->
+          <!-- 预加载所有主图资源 -->
           {% for image in displayproduct.images %}
-            {% assign img_extension = image.src | split: '.' | last | downcase %}
-            {% if img_extension == 'jpg' or img_extension == 'jpeg' or img_extension == 'pjpg' %}
-              <link rel="preload" as="image" href="{{ image | img_url: '800x800', format: 'webp' }}">
-            {% endif %}
-            <!-- 为所有格式提供备用预加载 -->
-            <link rel="preload" as="image" href="{{ image | img_url: '800x800' }}">
+            <link rel="preload" as="image" href="{{ image | image_url: width: 800 }}">
           {% endfor %}
           
           <div class="thumbnail-gallery">
@@ -614,7 +588,7 @@
                 {%- assign sort_number = forloop.index -%}
               {%- endunless -%}
               <img
-                src="{{ image | img_url: '100x100' }}"
+                src="{{ image | image_url: width: 100 }}"
                 alt="{{ image.alt | default: displayproduct.title }}"
                 class="thumbnail{% if forloop.first %} active{% endif %}"
                 width="100"
@@ -623,13 +597,8 @@
                 data-image-key="{{ keytext }}"
                 data-sort-number="{{ sort_number }}"
                 data-filename="{{ filename }}"
-                data-main-image="{{ image | img_url: '800x800' }}"
-                {% assign thumb_extension = image.src | split: '.' | last | downcase %}
-                {% if thumb_extension == 'jpg' or thumb_extension == 'jpeg' or thumb_extension == 'pjpg' %}
-                  data-main-image-webp="{{ image | img_url: '800x800', format: 'webp' }}"
-                {% else %}
-                  data-main-image-webp=""
-                {% endif %}
+                data-main-image="{{ image | image_url: width: 800 }}"
+                data-main-image-webp=""
                 onclick="switchMainImage(this)"
               >
             {% endfor %}
@@ -801,11 +770,17 @@
     
     if (quantityInput && currentPriceElement && totalPriceElement) {
       const quantity = parseInt(quantityInput.value) || 1;
-      const priceText = currentPriceElement.textContent.replace(/[^\d.]/g, '');
-      const price = parseFloat(priceText) || 0;
+      const priceText = currentPriceElement.textContent.trim();
+      const amountMatch = priceText.match(/[0-9][0-9,.]*/);
+      if (!amountMatch) return;
+      const price = parseFloat(amountMatch[0].replace(/,/g, '')) || 0;
       const total = quantity * price;
-      
-      totalPriceElement.textContent = '$' + total.toFixed(2);
+      const formattedTotal = total.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      totalPriceElement.textContent = priceText.replace(amountMatch[0], formattedTotal);
     }
   }
 
