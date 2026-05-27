@@ -76,8 +76,6 @@
         "paddingtop": 64,
         "paddingbottom": 64,
         "backgroundcolor": "#ffffff",
-        "mainimage": "shopify://shop_images/2_4790d777-0be2-4955-afb6-737ef3026dce.jpg",
-        "fallbackimage": "shopify://shop_images/2025.4.3-_2.jpg",
         "mainimagealt": "Product Main Image",
         "imageheight": 450,
         "imageborderradius": 12,
@@ -182,7 +180,7 @@
       "type": "video-banner",
       "name": "视频展示区",
       "settings": {
-        "video": "",
+        "video": "shopify://files/videos/homepage-product-showcase.mp4",
         "youtube_url": "",
         "vimeo_url": "",
         "height_desktop": 450,
