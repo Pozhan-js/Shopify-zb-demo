@@ -12,3 +12,4 @@ downloaded-site
 homepage-display-assets/*
 !homepage-display-assets/.gitkeep
 !homepage-display-assets/README.md
+homepage-display-assets.zip
