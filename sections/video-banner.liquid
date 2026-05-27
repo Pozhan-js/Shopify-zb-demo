@@ -99,12 +99,19 @@
   }
 {% endstyle %}
 
-<div class="section-{{ section.id }}">
+<div class="section-{{ section.id }}" data-video-banner-section>
   {% if section.settings.video %}
     {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, preload: 'auto' }}
   {% elsif section.settings.youtube_url %}
+    {%- liquid
+      if section.settings.youtube_url contains 'youtu.be/'
+        assign youtube_id = section.settings.youtube_url | split: 'youtu.be/' | last | split: '?' | first
+      else
+        assign youtube_id = section.settings.youtube_url | split: 'v=' | last | split: '&' | first
+      endif
+    -%}
     <iframe
-      src="{{ section.settings.youtube_url | youtube_embed_url }}?autoplay=1&loop=1&playlist={{ section.settings.youtube_url | split: 'v=' | last }}&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&disablekb=1&fs=0&iv_load_policy=3"
+      src="https://www.youtube.com/embed/{{ youtube_id }}?autoplay=1&loop=1&playlist={{ youtube_id }}&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&disablekb=1&fs=0&iv_load_policy=3"
       frameborder="0"
       allowfullscreen
       allow="autoplay; encrypted-media; fullscreen"
@@ -112,8 +119,9 @@
     >
     </iframe>
   {% elsif section.settings.vimeo_url %}
+    {%- assign vimeo_id = section.settings.vimeo_url | split: 'vimeo.com/' | last | split: '?' | first -%}
     <iframe
-      src="{{ section.settings.vimeo_url | vimeo_embed_url }}?autoplay=1&loop=1&muted=1&autopause=0&title=0&byline=0&portrait=0"
+      src="https://player.vimeo.com/video/{{ vimeo_id }}?autoplay=1&loop=1&muted=1&autopause=0&title=0&byline=0&portrait=0"
       frameborder="0"
       allowfullscreen
       allow="autoplay; encrypted-media; fullscreen"
@@ -129,20 +137,17 @@
 
 {% javascript %}
   document.addEventListener('DOMContentLoaded', function () {
-    const section = document.querySelector('.section-{{ section.id }}');
-    if (!section) return;
+    document.querySelectorAll('[data-video-banner-section]').forEach(function (section) {
+      const video = section.querySelector('video');
+      if (!video) return;
 
-    const video = section.querySelector('video');
-    if (video) {
-      // 确保静音和自动播放
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
 
-      // 尝试播放
       video.play().catch((err) => {
         console.warn('自动播放被浏览器阻止:', err.message);
       });
-    }
+    });
   });
 {% endjavascript %}

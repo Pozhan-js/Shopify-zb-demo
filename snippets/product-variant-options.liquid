@@ -59,10 +59,11 @@
   {%- endcapture -%}
 
   {%- if picker_type == 'swatch' -%}
-    {%- capture help_text -%}
-      <span class="visually-hidden">{{ value | escape }}</span>
-      {{ label_unavailable }}
-    {%- endcapture -%}
+    {%- liquid
+      assign escaped_value = value | escape
+      assign help_text = '<span class="visually-hidden">' | append: escaped_value | append: '</span>'
+      assign help_text = help_text | append: label_unavailable
+    -%}
     {%
       render 'swatch-input',
       id: input_id,

@@ -189,9 +189,11 @@
             <div class="card-image-container">
               {% if block.settings.cardimage != blank %}
                 <img
-                  src="{{ block.settings.cardimage | img_url: '400x400' }}"
+                  src="{{ block.settings.cardimage | image_url: width: 400 }}"
                   alt="{{ block.settings.cardimagealt | default: block.settings.cardtitle }}"
                   class="card-image"
+                  width="{{ block.settings.cardimage.width }}"
+                  height="{{ block.settings.cardimage.height }}"
                   loading="lazy"
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                 >

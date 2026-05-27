@@ -181,6 +181,8 @@
             src="{{ block.settings.image | image_url: width: section.settings.image_width }}"
             alt="{{ block.settings.alt_text | default: 'Hero slide image' | escape }}"
             class="hero-slide-image"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
             loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
           >
         {% endif %}

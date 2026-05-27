@@ -415,6 +415,8 @@
                     <img
                       src="{{ block.settings.image | image_url: width: 600 }}"
                       alt="{{ block.settings.image_alt | default: 'About us image' }}"
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"
                       loading="lazy"
                     >
                   {% else %}
@@ -434,6 +436,8 @@
                     <img
                       src="{{ block.settings.image | image_url: width: 800 }}"
                       alt="{{ block.settings.image_alt | default: 'About us main image' }}"
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"
                       loading="lazy"
                     >
                   {% else %}
@@ -506,6 +510,8 @@
                   <img
                     src="{{ block.settings.member_photo | image_url: width: 400 }}"
                     alt="{{ block.settings.member_name | default: 'Team member' }}"
+                    width="{{ block.settings.member_photo.width }}"
+                    height="{{ block.settings.member_photo.height }}"
                     loading="lazy"
                   >
                 {% else %}

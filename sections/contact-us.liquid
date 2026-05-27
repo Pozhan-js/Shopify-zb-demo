@@ -471,17 +471,6 @@
       successMessage.classList.remove('show');
       errorMessage.classList.remove('show');
     });
-
-    // Handle form errors (if any)
-    {% if form.errors %}
-      errorMessage.classList.add('show');
-      errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      // Auto-hide after 5 seconds
-      setTimeout(() => {
-        errorMessage.classList.remove('show');
-      }, 5000);
-    {% endif %}
   });
 </script>
 
