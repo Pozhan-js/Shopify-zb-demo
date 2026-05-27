@@ -8,6 +8,9 @@
 ehthumbs.db
 Thumbs.db
 .shopify
+.playwright-cli
+.playwright-mcp
+
 downloaded-site
 homepage-display-assets/*
 !homepage-display-assets/.gitkeep

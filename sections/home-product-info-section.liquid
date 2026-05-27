@@ -662,7 +662,6 @@
                       data-image="{% if variant.image %}{{ variant.image | image_url: width: 800 }}{% elsif displayproduct.featured_image %}{{ displayproduct.featured_image | image_url: width: 800 }}{% endif %}"
                       data-image-alt="{% if variant.image %}{{ variant.image.alt | default: variant.title }}{% else %}{{ displayproduct.featured_image.alt | default: displayproduct.title }}{% endif %}"
                       {% if forloop.first %}checked{% endif %}
-                      {% unless variant.available %}disabled{% endunless %}
                     >
                     <label for="variant-{{ variant.id }}">{{ variant.title }}</label>
                   </div>
@@ -911,6 +910,18 @@
   const LIQUID_AMOUNT_NO_DECIMALS_TOKEN = LIQUID_OPEN + 'amount_no_decimals' + LIQUID_CLOSE;
   const LIQUID_AMOUNT_COMMA_TOKEN = LIQUID_OPEN + 'amount_with_comma_separator' + LIQUID_CLOSE;
 
+  function getVariantImageKey(variantTitle) {
+    const match = (variantTitle || '').toLowerCase().match(/(\d+)\s*oz/);
+    return match ? match[1] + 'oz' : '';
+  }
+
+  function thumbnailMatchesVariant(thumbnail, variantImageKey) {
+    if (!variantImageKey) return true;
+
+    const filename = (thumbnail.getAttribute('data-filename') || '').toLowerCase();
+    return filename === variantImageKey || filename.startsWith(variantImageKey + '_');
+  }
+
   // 按数字排序缩略图的函数
   function sortThumbnailsByNumber() {
     
@@ -970,26 +981,23 @@
     thumbnails.forEach(thumb => thumb.classList.remove('active'));
     if (thumbnails.length > 0) {
       thumbnails[0].classList.add('active');
-      
-      // 更新主图为第一个缩略图
+
       const firstThumb = thumbnails[0];
       const mainImage = document.getElementById('main-product-image');
-      const picture = mainImage.parentElement;
-      const webpSource = picture.querySelector('source[type="image/webp"]');
-      
-      if (mainImage && firstThumb) {
+
+      if (mainImage && firstThumb && mainImage.tagName === 'IMG') {
         const newImageSrc = firstThumb.getAttribute('data-main-image');
         const newImageWebp = firstThumb.getAttribute('data-main-image-webp');
-        
-        
-        
+        const picture = mainImage.closest('picture');
+        const webpSource = picture ? picture.querySelector('source[type="image/webp"]') : null;
+
         if (webpSource && newImageWebp) {
           webpSource.srcset = newImageWebp;
         }
-        mainImage.src = newImageSrc;
-        mainImage.alt = firstThumb.alt;
-        
-        
+        if (newImageSrc) {
+          mainImage.src = newImageSrc;
+          mainImage.alt = firstThumb.alt;
+        }
       }
     }
     
@@ -998,20 +1006,17 @@
 
   // 图片切换函数 - 带渐隐过渡效果
   function switchMainImage(thumbnail) {
-    
     const mainImage = document.getElementById('main-product-image');
-    const picture = mainImage.parentElement;
-    const webpSource = picture.querySelector('source[type="image/webp"]');
-    
     const newImageSrc = thumbnail.getAttribute('data-main-image');
     const newImageWebp = thumbnail.getAttribute('data-main-image-webp');
     const newImageAlt = thumbnail.alt;
-    
-    
-    
-    if (!mainImage || !newImageSrc || mainImage.src === newImageSrc) {
+
+    if (!mainImage || mainImage.tagName !== 'IMG' || !newImageSrc || mainImage.src === newImageSrc) {
       return;
     }
+
+    const picture = mainImage.closest('picture');
+    const webpSource = picture ? picture.querySelector('source[type="image/webp"]') : null;
     
     
     // 添加过渡效果
@@ -1238,10 +1243,8 @@
         try {
           
           
-          // 🧩 根据变体名称中的数字+oz组合过滤缩略图
-          const variantTitle = this.nextElementSibling.textContent.toLowerCase();
-          const ozMatch = variantTitle.match(/(\d+)oz/);
-          const variantOzPattern = ozMatch ? ozMatch[1] + 'oz' : '';
+          // 根据当前变体规格（如 8oz/12oz/16oz）筛选对应图片。
+          const variantImageKey = getVariantImageKey(this.nextElementSibling.textContent);
           
           
           
@@ -1253,9 +1256,8 @@
           // 先过滤缩略图并移除 active 状态
           const visibleThumbnails = [];
           thumbnails.forEach((thumb, index) => {
-            const key = thumb.getAttribute('data-image-key').toLowerCase();
-            const shouldShow = variantOzPattern && key.includes(variantOzPattern);
-            const displayStyle = shouldShow ? 'inline-block' : (variantOzPattern ? 'none' : 'inline-block');
+            const shouldShow = thumbnailMatchesVariant(thumb, variantImageKey);
+            const displayStyle = shouldShow ? 'inline-block' : 'none';
             
             
             
@@ -1321,12 +1323,11 @@
             
           }
 
-          // 更新主图
-          if (finalImageSrc && mainImage) {
-            const picture = mainImage.parentElement;
-            const webpSource = picture.querySelector('source[type="image/webp"]');
+          if (finalImageSrc && mainImage && mainImage.tagName === 'IMG') {
+            const picture = mainImage.closest('picture');
+            const webpSource = picture ? picture.querySelector('source[type="image/webp"]') : null;
             const webpSrc = visibleThumbnails[0]?.getAttribute('data-main-image-webp');
-            
+
             if (webpSource && webpSrc) {
               webpSource.srcset = webpSrc;
             }
