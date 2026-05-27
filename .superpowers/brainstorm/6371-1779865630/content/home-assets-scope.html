@@ -1,0 +1,75 @@
+<style>
+  .asset-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0 10px; }
+  .asset-strip img { display:block; width:100%; height:86px; object-fit:cover; border-radius:8px; background:#f3f2ee; }
+  .asset-strip.products img { object-fit:contain; background:#fafafa; }
+  .badge { display:inline-block; padding:4px 8px; margin:0 4px 5px 0; border-radius:20px; font-size:12px; background:#edf5e2; color:#45691b; }
+  .muted-badge { background:#f1f1f1; color:#666; }
+  .decision-note { margin-top:22px; padding:16px; border-radius:12px; background:#f8f7f2; }
+  .cards { align-items:stretch; }
+  .card { display:flex; flex-direction:column; }
+  .card-image { height:auto; padding:12px; background:#fff; }
+  .card-body { flex:1; }
+</style>
+
+<h2>首页展示资源补齐范围</h2>
+<p class="subtitle">素材来自 Bottles Supply 当前在线首页及本地抓取快照中保留的 Shopify CDN 地址。点击选择一档。</p>
+
+<div class="cards">
+  <div class="card" data-choice="a-minimum" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="label">A | 最小补缺</div>
+      <div class="asset-strip">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/6716a46c60614ecf54996e9978660efd.png?v=1776748156&width=480" alt="Hero">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/b1251a8aa4d0f1fa065ffb1059d046f0.jpg?v=1759829546&width=300" alt="Material">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/preview_images/f54da08e2b6e4aaa8cc1b01707c8fcb6.thumbnail.0000000000_small.jpg?v=1760061858" alt="Video">
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>只修最明显空位</h3>
+      <p>恢复当前空白的视频区，并准备少量首屏展示图。改动最小，但产品图库和评价资源依然依赖后台。</p>
+      <span class="badge">视频</span><span class="badge">首屏图</span>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b-visible-home" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="label">B | 推荐：完整可见首页</div>
+      <div class="asset-strip">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/6716a46c60614ecf54996e9978660efd.png?v=1776748156&width=480" alt="Hero one">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/d64acadc9bd4d6b516da1b643e472206.png?v=1776749265&width=480" alt="Hero two">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/3028134ca0274b4b1ef4100609be084f.png?v=1776752828&width=480" alt="Hero three">
+      </div>
+      <div class="asset-strip">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/b1251a8aa4d0f1fa065ffb1059d046f0.jpg?v=1759829546&width=300" alt="Leak proof">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/3_e98868dd-920b-47f4-be60-6f5ac0294436.jpg?v=1759829547&width=300" alt="Use case">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/1_447d2f6f-d46a-4ce9-9958-1546b7a2273a.jpg?v=1759829546&width=300" alt="Top choice">
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>恢复访客看到的首页媒体</h3>
+      <p>带回 Hero、商品主图/容量图、材料、视频、评价和 Amazon 卡片图，使当前七个首页区块都有真实内容。</p>
+      <span class="badge">Hero x3</span><span class="badge">商品图库</span><span class="badge">材料 x3</span><span class="badge">视频</span><span class="badge">评价 x5</span><span class="badge">商品卡 x4</span>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c-portable-theme" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="label">C | 仓库可移植交付</div>
+      <div class="asset-strip products">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/8oz_4.jpg?v=1776246704&width=300" alt="Bottle product">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/12oz_1_A.jpg?v=1776247528&width=300" alt="Bottle product">
+        <img src="https://cdn.shopify.com/s/files/1/0679/1603/8214/files/external-link-1_400x400.png?v=1758597993" alt="Amazon card">
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>完整资源落到主题 assets</h3>
+      <p>覆盖 B 的展示范围，并下载为可版本管理文件，section 支持缺少后台媒体时使用本地回退。交付最稳定，但会新增较多二进制资源，视频约 38 MB。</p>
+      <span class="badge">完整首页</span><span class="badge">本地回退</span><span class="badge muted-badge">较大仓库体积</span>
+    </div>
+  </div>
+</div>
+
+<div class="decision-note">
+  <strong>我的建议：B</strong>
+  <p>当前页面结构和图片引用已经对齐在线首页，先补齐所有可见展示资源最贴合“首页展示资源”目标；只有当该主题必须脱离 Shopify 媒体库独立预览或交付时，再选 C。</p>
+</div>

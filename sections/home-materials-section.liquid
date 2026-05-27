@@ -130,11 +130,16 @@
       {% for block in section.blocks %}
         {% if block.type == 'material' %}
           <div class="material-card">
-            <img
-              src="{{ block.settings.image | image_url: width: 600 }}"
-              alt="{{ block.settings.title }}"
-              class="material-image"
-            >
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 600 }}"
+                alt="{{ block.settings.title }}"
+                class="material-image"
+                loading="lazy"
+                width="600"
+                height="600"
+              >
+            {%- endif -%}
             <div class="material-content">
               <h3 class="material-title">{{ block.settings.title }}</h3>
               <p class="material-description">{{ block.settings.description }}</p>

@@ -15,35 +15,21 @@
         "slide_YkqGaw": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/03cf8647d1453215dcbcbe722f00bdda.jpg",
+            "image": "shopify://shop_images/hero-slide-01.png",
             "alt_text": "Hero slide image"
           }
         },
         "slide_bQjjKg": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/1_b2fcdcdf-4dd0-403f-b39d-b9e4ec4c8159.jpg",
+            "image": "shopify://shop_images/hero-slide-02.png",
             "alt_text": "Hero slide image"
           }
         },
         "slide_FJHVhB": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/2_9581aebf-898f-4014-b160-e721210d72ad.jpg",
-            "alt_text": "Hero slide image"
-          }
-        },
-        "slide_6eWjjT": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/3_6ce662b1-2e61-41b3-bcb9-561d191030db.jpg",
-            "alt_text": "Hero slide image"
-          }
-        },
-        "slide_RhjyJG": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/4_168d1b82-db7e-45e8-a550-5cedf3a6b446.jpg",
+            "image": "shopify://shop_images/hero-slide-03.png",
             "alt_text": "Hero slide image"
           }
         }
@@ -51,9 +37,7 @@
       "block_order": [
         "slide_YkqGaw",
         "slide_bQjjKg",
-        "slide_FJHVhB",
-        "slide_6eWjjT",
-        "slide_RhjyJG"
+        "slide_FJHVhB"
       ],
       "name": "Home Hero",
       "settings": {
@@ -85,7 +69,7 @@
       "type": "home-product-info-section",
       "name": "Product Info Section",
       "settings": {
-        "selectedproduct": "",
+        "selectedproduct": "zb-test-bottle-square",
         "useproducttitle": true,
         "useproductdescription": true,
         "useproductimage": true,
@@ -152,7 +136,7 @@
         "material_R8gNQJ": {
           "type": "material",
           "settings": {
-            "image": "shopify://shop_images/b1251a8aa4d0f1fa065ffb1059d046f0.jpg",
+            "image": "shopify://shop_images/material-leak-proof.jpg",
             "title": "Leak proof",
             "description": "The black tamper-evident cap fits tightly with the bottle and is tightly sealed to keep your drink fresh during storage.",
             "feature_1": "Crystal Clear and Aesthetically Pleasing",
@@ -163,7 +147,7 @@
         "material_bTMACP": {
           "type": "material",
           "settings": {
-            "image": "shopify://shop_images/3_e98868dd-920b-47f4-be60-6f5ac0294436.jpg",
+            "image": "shopify://shop_images/material-use-cases.jpg",
             "title": "Perfect for your business and homemake",
             "description": "Our juice bottles Perfect for everyday life, restaurants, juice shops, gyms, etc.  Always bring you fresh drinks.",
             "feature_1": "For outdoor use",
@@ -174,7 +158,7 @@
         "material_8LrMi8": {
           "type": "material",
           "settings": {
-            "image": "shopify://shop_images/1_447d2f6f-d46a-4ce9-9958-1546b7a2273a.jpg",
+            "image": "shopify://shop_images/material-top-choice.jpg",
             "title": "Top Choice",
             "description": "We are a factory with stable supply and production capabilities and a competitive edge in our products.",
             "feature_1": "With our own manufacturing facilities",
@@ -198,7 +182,7 @@
       "type": "video-banner",
       "name": "视频展示区",
       "settings": {
-        "video": "shopify://files/videos/饮料瓶产品线视频.mp4",
+        "video": "",
         "youtube_url": "",
         "vimeo_url": "",
         "height_desktop": 450,
@@ -211,7 +195,7 @@
         "endorser_p3wdrz": {
           "type": "endorser",
           "settings": {
-            "image": "shopify://shop_images/1_46e9b6a4-e6b9-428d-84cd-9269ef453976.jpg",
+            "image": "shopify://shop_images/endorsement-sarah-johnson.jpg",
             "name": "Sarah Johnson",
             "title": "Fashion Influencer",
             "social_handle": "@sarahstyles",
@@ -222,7 +206,7 @@
         "endorser_paktca": {
           "type": "endorser",
           "settings": {
-            "image": "shopify://shop_images/2_39e2bdd8-eff6-49ec-b3ff-53d72a53c78c.jpg",
+            "image": "shopify://shop_images/endorsement-mike-chen.jpg",
             "name": "Mike Chen",
             "title": "Lifestyle Creator",
             "social_handle": "@mikelifestyle",
@@ -233,7 +217,7 @@
         "endorser_HGFjWN": {
           "type": "endorser",
           "settings": {
-            "image": "shopify://shop_images/3_0d05cff7-349e-4ed2-98a4-da8b592c0968.jpg",
+            "image": "shopify://shop_images/endorsement-elizabeth.jpg",
             "name": "Elizabeth",
             "title": "Fashion Influencer",
             "social_handle": "@Elizabeth",
@@ -244,7 +228,7 @@
         "endorser_cAbWGM": {
           "type": "endorser",
           "settings": {
-            "image": "shopify://shop_images/2025.4.3-_2.jpg",
+            "image": "shopify://shop_images/endorsement-grace.jpg",
             "name": "Grace",
             "title": "Fashion Influencer",
             "social_handle": "@Grace",
@@ -255,7 +239,7 @@
         "endorser_DmVPKw": {
           "type": "endorser",
           "settings": {
-            "image": "shopify://shop_images/5.jpg",
+            "image": "shopify://shop_images/endorsement-victor.jpg",
             "name": "Victor",
             "title": "Fashion Influencer",
             "social_handle": "@Victor",
@@ -283,7 +267,7 @@
         "feature_card_Jad973": {
           "type": "feature_card",
           "settings": {
-            "cardimage": "shopify://shop_images/external-link-1.png",
+            "cardimage": "shopify://shop_images/amazon-card-12pcs-8oz.png",
             "cardimagealt": "",
             "cardtitle": "12pcs 8oz Plastic Juice Bottles with Caps,",
             "cardlink": "https://www.amazon.com/dp/B0D95J4MX4",
@@ -293,7 +277,7 @@
         "feature_card_XdKPPX": {
           "type": "feature_card",
           "settings": {
-            "cardimage": "shopify://shop_images/external-link-3_png.jpg",
+            "cardimage": "shopify://shop_images/amazon-card-36pcs-4oz.jpg",
             "cardimagealt": "",
             "cardtitle": "36pcs 4oz Juice Bottles, Small Plastic Bottles with Caps",
             "cardlink": "https://www.amazon.com/dp/B0F7XHS139",
@@ -303,7 +287,7 @@
         "feature_card_8Dbkic": {
           "type": "feature_card",
           "settings": {
-            "cardimage": "shopify://shop_images/external-link-2.png",
+            "cardimage": "shopify://shop_images/amazon-card-6pcs-2oz.png",
             "cardimagealt": "",
             "cardtitle": "6pcs 2oz Plastic Shots Bottles with Caps",
             "cardlink": "https://www.amazon.com/dp/B0F7XPVBGN",
@@ -313,7 +297,7 @@
         "feature_card_AQzTCy": {
           "type": "feature_card",
           "settings": {
-            "cardimage": "shopify://shop_images/external-link-4_png.jpg",
+            "cardimage": "shopify://shop_images/amazon-card-40pcs-12oz.jpg",
             "cardimagealt": "",
             "cardtitle": "40pcs 12oz Juice Bottles, Empty Plastic Juicing Bottles with Caps",
             "cardlink": "https://www.amazon.com/dp/B0F7XHS139",

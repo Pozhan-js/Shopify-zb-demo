@@ -175,11 +175,16 @@
           {% assign first_block = section.blocks | where: 'type', 'endorser' | first %}
           {% if first_block %}
             <div class="endorser-profile">
-              <img
-                src="{{ first_block.settings.image | image_url: width: 200 }}"
-                alt="{{ first_block.settings.name }}"
-                class="endorser-avatar"
-              >
+              {%- if first_block.settings.image != blank -%}
+                <img
+                  src="{{ first_block.settings.image | image_url: width: 200 }}"
+                  alt="{{ first_block.settings.name }}"
+                  class="endorser-avatar"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                >
+              {%- endif -%}
               <div class="endorser-info">
                 <h3>{{ first_block.settings.name }}</h3>
                 <p class="endorser-title">{{ first_block.settings.title }}</p>
@@ -196,12 +201,17 @@
 
       <!-- 右侧大图 -->
       <div>
-        <img
-          src="{% if first_block %}{{ first_block.settings.image | image_url: width: 600 }}{% else %}//via.placeholder.com/600x400{% endif %}"
-          alt="Endorsement"
-          class="endorsement-image"
-          id="endorsementImage"
-        >
+        {%- if first_block and first_block.settings.image != blank -%}
+          <img
+            src="{{ first_block.settings.image | image_url: width: 600 }}"
+            alt="Endorsement"
+            class="endorsement-image"
+            id="endorsementImage"
+            loading="lazy"
+            width="600"
+            height="400"
+          >
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -218,7 +228,7 @@
       {% for block in section.blocks %}
         {% if block.type == 'endorser' %}
           {
-            image: "{{ block.settings.image | img_url: '600x' }}",
+            image: {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 600 | json }}{% else %}""{% endif %},
             name: {{ block.settings.name | json }},
             title: {{ block.settings.title | json }},
             social_handle: {{ block.settings.social_handle | json }},
@@ -239,7 +249,7 @@
       // 更新内容
       card.innerHTML = `
         <div class="endorser-profile">
-          <img src="${e.image}" alt="${e.name}" class="endorser-avatar">
+          ${e.image ? `<img src="${e.image}" alt="${e.name}" class="endorser-avatar">` : ''}
           <div class="endorser-info">
             <h3>${e.name}</h3>
             <p class="endorser-title">${e.title}</p>
@@ -253,7 +263,14 @@
       `;
 
       // 更新图片
-      image.src = e.image;
+      if (image) {
+        if (e.image) {
+          image.src = e.image;
+          image.hidden = false;
+        } else {
+          image.hidden = true;
+        }
+      }
     }
 
     // 绑定点击事件
