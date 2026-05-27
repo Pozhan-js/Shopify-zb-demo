@@ -1,0 +1,224 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "home-hero-section",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/hero-slide-1.jpg",
+            "title": "Premium Quality Products",
+            "subtitle": "Discover our collection of premium products crafted with excellence"
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/hero-slide-2.jpg",
+            "title": "Exclusive Collection",
+            "subtitle": "Limited edition items available now"
+          }
+        }
+      },
+      "settings": {}
+    },
+    "materials": {
+      "type": "home-materials-section",
+      "blocks": {
+        "material-1": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/material-1.jpg",
+            "title": "Premium Leather",
+            "description": "Genuine leather with exceptional durability and timeless appeal"
+          }
+        },
+        "material-2": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/material-2.jpg",
+            "title": "Solid Gold",
+            "description": "18K solid gold for lasting beauty and value"
+          }
+        },
+        "material-3": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/material-3.jpg",
+            "title": "Natural Gemstones",
+            "description": "Hand-selected natural gemstones with brilliant clarity"
+          }
+        }
+      },
+      "settings": {
+        "title": "Premium Materials & Craftsmanship",
+        "subtitle": "We are committed to using the finest materials and most skilled craftsmanship to deliver exceptional products"
+      }
+    },
+    "endorsements": {
+      "type": "home-endorsement-section",
+      "blocks": {
+        "influencer-1": {
+          "type": "endorser",
+          "settings": {
+            "image": "shopify://shop_images/influencer-1.jpg",
+            "name": "Sarah Johnson",
+            "title": "Fashion Influencer",
+            "followers": "250K",
+            "quote": "Absolutely love the quality and design of these products! They have become my go-to accessories."
+          }
+        },
+        "influencer-2": {
+          "type": "endorser",
+          "settings": {
+            "image": "shopify://shop_images/influencer-2.jpg",
+            "name": "Mike Chen",
+            "title": "Lifestyle Creator",
+            "followers": "180K",
+            "quote": "The craftsmanship is exceptional. These pieces truly stand out in my collection."
+          }
+        }
+      },
+      "settings": {
+        "title": "Influencer Reviews",
+        "subtitle": "Hear what top influencers and lifestyle creators say about our products"
+      }
+    },
+    "productinfo": {
+      "type": "home-product-info-section",
+      "blocks": {
+        "benefit-1": {
+          "type": "benefit",
+          "settings": {
+            "benefit_name": "Premium Quality",
+            "benefit_value": "Top-grade materials"
+          }
+        },
+        "benefit-2": {
+          "type": "benefit",
+          "settings": {
+            "benefit_name": "Free Shipping",
+            "benefit_value": "On orders over $50"
+          }
+        },
+        "benefit-3": {
+          "type": "benefit",
+          "settings": {
+            "benefit_name": "30-Day Returns",
+            "benefit_value": "Easy returns policy"
+          }
+        },
+        "benefit-4": {
+          "type": "benefit",
+          "settings": {
+            "benefit_name": "Lifetime Warranty",
+            "benefit_value": "Quality guarantee"
+          }
+        }
+      },
+      "settings": {
+        "main_image": "shopify://shop_images/product-1.jpg"
+      }
+    },
+    "faq": {
+      "type": "home-faq-section",
+      "blocks": {
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "category": "shipping",
+            "question": "配送时间是多久？",
+            "answer": "标准配送通常需要3-5个工作日，加急配送1-2个工作日。"
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "category": "returns",
+            "question": "如何申请退换货？",
+            "answer": "收到商品后7天内可申请退换货，请保持商品完好并联系客服。"
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "category": "product",
+            "question": "产品材质是什么？",
+            "answer": "我们使用高品质材料制作，具体材质请参考产品详情页。"
+          }
+        },
+        "faq-4": {
+          "type": "faq_item",
+          "settings": {
+            "category": "shipping",
+            "question": "支持国际配送吗？",
+            "answer": "是的，我们支持全球配送，国际配送时间通常为7-14个工作日。"
+          }
+        }
+      },
+      "settings": {
+        "title": "常见问题",
+        "subtitle": "为您整理了最常见的问题和详细解答，如有其他疑问请随时联系我们"
+      }
+    },
+    "footer": {
+      "type": "home-footer-section",
+      "blocks": {
+        "notice-1": {
+          "type": "notice",
+          "settings": {
+            "title": "Shipping Info"
+          }
+        },
+        "notice-2": {
+          "type": "notice",
+          "settings": {
+            "title": "Return Policy"
+          }
+        },
+        "notice-3": {
+          "type": "notice",
+          "settings": {
+            "title": "Customer Support"
+          }
+        },
+        "social-1": {
+          "type": "social_link",
+          "settings": {
+            "url": "https://facebook.com"
+          }
+        },
+        "social-2": {
+          "type": "social_link",
+          "settings": {
+            "url": "https://instagram.com"
+          }
+        },
+        "social-3": {
+          "type": "social_link",
+          "settings": {
+            "url": "https://twitter.com"
+          }
+        }
+      },
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "materials",
+    "endorsements",
+    "productinfo",
+    "faq",
+    "footer"
+  ]
+}

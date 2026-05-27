@@ -1,0 +1,572 @@
+{% comment %}
+  Home Hero Section - 英雄轮播区域
+  使用 blocks 实现轮播图，兼容所有 Shopify 主题
+  支持后台上传图片等
+  支持后台编辑轮播图宽高，保持自适应效果
+{% endcomment %}
+
+<style>
+  /* Hero Banner Styles */
+  .hero-section {
+    position: relative;
+    width: {{ section.settings.container_width }}%;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 2rem auto;
+    height: {{ section.settings.desktop_height }}px;
+    min-height: {{ section.settings.min_height }}px;
+    overflow: hidden;
+    border-radius: {{ section.settings.border_radius }}rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .hero-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-slide.active {
+    opacity: 1;
+  }
+
+  /* 确保图片完全展示的样式 */
+  .hero-slide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: {{ section.settings.image_fit }};
+    object-position: center center;
+  }
+
+  .hero-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s ease;
+    backdrop-filter: blur(4px);
+  }
+
+  .hero-nav:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .hero-nav.prev {
+    left: 2rem;
+  }
+
+  .hero-nav.next {
+    right: 2rem;
+  }
+
+  .hero-indicators {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 3;
+  }
+
+  .hero-indicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .hero-indicator.active {
+    background: white;
+  }
+
+  /* 自适应响应式设计 */
+  @media (min-width: 1280px) {
+    .hero-section {
+      width: {{ section.settings.container_width }}%;
+      max-width: {{ section.settings.max_width }}px;
+      height: {{ section.settings.desktop_height }}px;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .hero-section {
+      width: {{ section.settings.container_width | plus: 5 }}%;
+      height: calc({{ section.settings.container_width | plus: 5 }}vw * {{ section.settings.desktop_height }} / {{ section.settings.max_width }});
+      min-height: {{ section.settings.min_height | times: 0.85 | round }}px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hero-section {
+      width: {{ section.settings.tablet_width }}%;
+      height: calc({{ section.settings.tablet_width }}vw * {{ section.settings.tablet_height }} / 100);
+      min-height: {{ section.settings.min_height | times: 0.7 | round }}px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-section {
+      width: {{ section.settings.mobile_width }}%;
+      height: calc({{ section.settings.mobile_width }}vw * {{ section.settings.mobile_height }} / 100);
+      min-height: {{ section.settings.min_height | times: 0.6 | round }}px;
+      margin: 1rem auto;
+    }
+
+    .hero-nav {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    .hero-nav.prev {
+      left: 1rem;
+    }
+
+    .hero-nav.next {
+      right: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-section {
+      width: {{ section.settings.mobile_width | plus: 3 }}%;
+      height: calc({{ section.settings.mobile_width | plus: 3 }}vw * {{ section.settings.mobile_height | plus: 10 }} / 100);
+      min-height: {{ section.settings.min_height | times: 0.5 | round }}px;
+      border-radius: 0.5rem;
+    }
+  }
+
+  /* 自定义宽高比例保持 */
+  {% if section.settings.maintain_aspect_ratio %}
+  .hero-section {
+    aspect-ratio: {{ section.settings.aspect_ratio_width }} / {{ section.settings.aspect_ratio_height }};
+    height: auto !important;
+  }
+
+  @media (max-width: 767px) {
+    .hero-section {
+      aspect-ratio: {{ section.settings.mobile_aspect_ratio_width }} / {{ section.settings.mobile_aspect_ratio_height }};
+    }
+  }
+  {% endif %}
+</style>
+
+<div class="hero-section">
+  {% for block in section.blocks %}
+    {% if block.type == 'slide' %}
+      <div class="hero-slide {% if forloop.first %}active{% endif %}">
+        {% if block.settings.image %}
+          <img
+            src="{{ block.settings.image | image_url: width: section.settings.image_width }}"
+            alt="{{ block.settings.alt_text | default: 'Hero slide image' | escape }}"
+            class="hero-slide-image"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+          >
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  {% if section.settings.show_navigation %}
+    <button class="hero-nav prev" aria-label="Previous slide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="hero-nav next" aria-label="Next slide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  {% endif %}
+
+  {% if section.settings.show_indicators %}
+    <div class="hero-indicators">
+      {% assign slideindex = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'slide' %}
+          <div
+            class="hero-indicator {% if forloop.first %}active{% endif %}"
+            data-slide="{{ slideindex }}"
+          ></div>
+          {% assign slideindex = slideindex | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const slides = Array.from(document.querySelectorAll('.hero-slide'));
+    const indicators = Array.from(document.querySelectorAll('.hero-indicator'));
+    const prevBtn = document.querySelector('.hero-nav.prev');
+    const nextBtn = document.querySelector('.hero-nav.next');
+    let currentSlide = 0;
+    let autoSlideInterval;
+    const autoSlideDelay = {{ section.settings.auto_slide_delay | times: 1000 }};
+
+    // 过滤出有效的幻灯片和指示器
+    const validSlides = slides.filter((slide) => {
+      const img = slide.querySelector('.hero-slide-image');
+      return img && img.src;
+    });
+    const validIndicators = indicators.slice(0, validSlides.length);
+
+    function showSlide(index) {
+      validSlides.forEach((slide) => slide.classList.remove('active'));
+      validIndicators.forEach((indicator) => indicator.classList.remove('active'));
+
+      if (validSlides[index]) validSlides[index].classList.add('active');
+      if (validIndicators[index]) validIndicators[index].classList.add('active');
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      const nextIndex = (currentSlide + 1) % validSlides.length;
+      showSlide(nextIndex);
+    }
+
+    function prevSlide() {
+      const prevIndex = (currentSlide - 1 + validSlides.length) % validSlides.length;
+      showSlide(prevIndex);
+    }
+
+    function startAutoSlide() {
+      if (validSlides.length > 1 && {{ section.settings.auto_slide | json }}) {
+        autoSlideInterval = setInterval(nextSlide, autoSlideDelay);
+      }
+    }
+
+    function stopAutoSlide() {
+      clearInterval(autoSlideInterval);
+    }
+
+    // 只有多张图片时才显示导航
+    if (validSlides.length <= 1) {
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      const indicatorsContainer = document.querySelector('.hero-indicators');
+      if (indicatorsContainer) indicatorsContainer.style.display = 'none';
+    } else {
+      // 导航按钮
+      prevBtn?.addEventListener('click', () => {
+        prevSlide();
+        stopAutoSlide();
+        startAutoSlide();
+      });
+
+      nextBtn?.addEventListener('click', () => {
+        nextSlide();
+        stopAutoSlide();
+        startAutoSlide();
+      });
+
+      // 指示器点击
+      validIndicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          showSlide(index);
+          stopAutoSlide();
+          startAutoSlide();
+        });
+      });
+
+      // 悬停暂停
+      {% if section.settings.pause_on_hover %}
+      const heroSection = document.querySelector('.hero-section');
+      heroSection?.addEventListener('mouseenter', stopAutoSlide);
+      heroSection?.addEventListener('mouseleave', startAutoSlide);
+      {% endif %}
+
+      // 启动自动轮播
+      startAutoSlide();
+    }
+
+    // 键盘导航
+    {% if section.settings.keyboard_navigation %}
+    document.addEventListener('keydown', (e) => {
+      if (validSlides.length > 1) {
+        if (e.key === 'ArrowLeft') {
+          prevSlide();
+          stopAutoSlide();
+          startAutoSlide();
+        } else if (e.key === 'ArrowRight') {
+          nextSlide();
+          stopAutoSlide();
+          startAutoSlide();
+        }
+      }
+    });
+    {% endif %}
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Home Hero Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "尺寸设置"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "容器宽度 (%)",
+      "min": 70,
+      "max": 100,
+      "step": 5,
+      "default": 90,
+      "info": "桌面端容器宽度百分比"
+    },
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "最大宽度 (px)",
+      "default": 1280,
+      "info": "容器最大宽度，单位像素"
+    },
+    {
+      "type": "number",
+      "id": "desktop_height",
+      "label": "桌面端高度 (px)",
+      "default": 432,
+      "info": "桌面端固定高度"
+    },
+    {
+      "type": "range",
+      "id": "tablet_width",
+      "label": "平板端宽度 (%)",
+      "min": 80,
+      "max": 100,
+      "step": 5,
+      "default": 95,
+      "info": "平板端容器宽度百分比"
+    },
+    {
+      "type": "number",
+      "id": "tablet_height",
+      "label": "平板端高度比例",
+      "default": 35,
+      "info": "平板端高度 = 宽度 * 此比例 / 100"
+    },
+    {
+      "type": "range",
+      "id": "mobile_width",
+      "label": "移动端宽度 (%)",
+      "min": 85,
+      "max": 100,
+      "step": 5,
+      "default": 95,
+      "info": "移动端容器宽度百分比"
+    },
+    {
+      "type": "number",
+      "id": "mobile_height",
+      "label": "移动端高度比例",
+      "default": 45,
+      "info": "移动端高度 = 宽度 * 此比例 / 100"
+    },
+    {
+      "type": "number",
+      "id": "min_height",
+      "label": "最小高度 (px)",
+      "default": 280,
+      "info": "所有设备的最小高度限制"
+    },
+    {
+      "type": "header",
+      "content": "宽高比设置"
+    },
+    {
+      "type": "checkbox",
+      "id": "maintain_aspect_ratio",
+      "label": "保持固定宽高比",
+      "default": false,
+      "info": "启用后将忽略上述高度设置，使用固定宽高比"
+    },
+    {
+      "type": "number",
+      "id": "aspect_ratio_width",
+      "label": "桌面端宽高比 - 宽",
+      "default": 16,
+      "info": "桌面端宽高比的宽度值"
+    },
+    {
+      "type": "number",
+      "id": "aspect_ratio_height",
+      "label": "桌面端宽高比 - 高",
+      "default": 9,
+      "info": "桌面端宽高比的高度值"
+    },
+    {
+      "type": "number",
+      "id": "mobile_aspect_ratio_width",
+      "label": "移动端宽高比 - 宽",
+      "default": 4,
+      "info": "移动端宽高比的宽度值"
+    },
+    {
+      "type": "number",
+      "id": "mobile_aspect_ratio_height",
+      "label": "移动端宽高比 - 高",
+      "default": 3,
+      "info": "移动端宽高比的高度值"
+    },
+    {
+      "type": "header",
+      "content": "图片设置"
+    },
+    {
+      "type": "number",
+      "id": "image_width",
+      "label": "图片加载宽度 (px)",
+      "default": 1920,
+      "info": "图片加载的最大宽度，影响加载速度"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "图片适应方式",
+      "options": [
+        {
+          "value": "cover",
+          "label": "覆盖 (推荐)"
+        },
+        {
+          "value": "contain",
+          "label": "包含"
+        },
+        {
+          "value": "fill",
+          "label": "填充"
+        }
+      ],
+      "default": "cover",
+      "info": "图片在容器中的显示方式"
+    },
+    {
+      "type": "header",
+      "content": "样式设置"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "圆角大小",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "default": 1,
+      "unit": "rem"
+    },
+    {
+      "type": "header",
+      "content": "功能设置"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "显示导航按钮",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_indicators",
+      "label": "显示指示器",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_slide",
+      "label": "自动轮播",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "auto_slide_delay",
+      "label": "轮播间隔 (秒)",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "悬停时暂停",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "keyboard_navigation",
+      "label": "键盘导航",
+      "default": true,
+      "info": "支持左右箭头键切换"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "轮播图",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "背景图片",
+          "info": "建议使用高质量图片，系统会自动优化加载"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "图片描述文字",
+          "default": "Hero slide image",
+          "info": "用于无障碍访问和SEO优化"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Hero",
+      "category": "Home Page",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "image": "",
+            "alt_text": "Hero slide image 1"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "image": "",
+            "alt_text": "Hero slide image 2"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
