@@ -67,6 +67,46 @@
     },
     "home_product_info_section_bJdYY8": {
       "type": "home-product-info-section",
+      "blocks": {
+        "bulk_tier_2": {
+          "type": "bulk_tier",
+          "settings": {
+            "quantity": 2,
+            "quantity_label": "items +",
+            "pcs_label": "200pcs/ item",
+            "discount_percent": 5,
+            "badge": "none",
+            "default_selected": false
+          }
+        },
+        "bulk_tier_5": {
+          "type": "bulk_tier",
+          "settings": {
+            "quantity": 5,
+            "quantity_label": "items +",
+            "pcs_label": "200pcs/ item",
+            "discount_percent": 10,
+            "badge": "most_popular",
+            "default_selected": true
+          }
+        },
+        "bulk_tier_15": {
+          "type": "bulk_tier",
+          "settings": {
+            "quantity": 15,
+            "quantity_label": "items +",
+            "pcs_label": "200pcs/ item",
+            "discount_percent": 20,
+            "badge": "wholesale",
+            "default_selected": false
+          }
+        }
+      },
+      "block_order": [
+        "bulk_tier_2",
+        "bulk_tier_5",
+        "bulk_tier_15"
+      ],
       "name": "Product Info Section",
       "settings": {
         "selectedproduct": "zb-test-bottle-square",
@@ -91,6 +131,11 @@
         "discountcolor": "#9abd48",
         "pricefontsize": 18,
         "shippinginfo": "<p><strong>Free shipping on orders over $50</strong></p>",
+        "show_bulk_discount": true,
+        "bulk_discount_title": "Buy more and save!",
+        "urgency_text": "Only 2 days left",
+        "badge_most_popular": "Most popular",
+        "badge_wholesale": "Wholesale",
         "skuselectortitle": "Select Option",
         "customskutitle": "Additional Options",
         "skutitlecolor": "#1f2937",
